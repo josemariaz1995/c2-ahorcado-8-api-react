@@ -1,3 +1,4 @@
+
 import { Ahorcado } from "./Components/Ahorcado";
 import { Mensaje } from "./Components/Mensaje";
 
