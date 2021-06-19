@@ -23,15 +23,17 @@ function App() {
   };
 
   useEffect(() => getPalabra(urlApi), [getPalabra]);
+
   const anyadirLetras = (e) => {
     setPalabra([...palabra, e.target.value]);
     setTimeout(() => {
       e.target.value = "";
     }, 500);
   };
+
   return (
     <>
-      <Ahorcado />
+      <Ahorcado numeroFallos={nFallos} />
       <ul className="palabra">
         {palabraSecreta.split("").map((letra, i) => (
           <Palabra key={i} />
