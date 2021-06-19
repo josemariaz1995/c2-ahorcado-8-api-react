@@ -35,9 +35,7 @@ function App() {
     <>
       <Ahorcado numeroFallos={nFallos} />
       <ul className="palabra">
-        {palabraSecreta.split("").map((letra, i) => (
-          <Palabra key={i} />
-        ))}
+        <Palabra palabraSecreta={palabraSecreta} />
       </ul>
       <input
         type="text"
