@@ -8,10 +8,12 @@ function App() {
     apiPalabras: "http://localhost:3001/palabras",
     apiAhorcado: "https://letras-ahorcado.herokuapp.com/letras/",
   };
-  const [palabra, setPalabra] = useState([]);
   const [palabraSecreta, setPalabraSecreta] = useState("");
+  const [palabraAdivinar, setPalabraAdivinar] = useState("");
   const [nFallos, setFallos] = useState(0);
-  const [ganar, useGanar] = useState(null);
+  const [letrasUsadas, setLetrasUsadas] = useState([]);
+  const [juegoTermiando, setJuegoTerminado] = useState(false);
+  const [haGanado, setHaGanado] = useState(false);
   const maxFallos = 11;
 
   const getPalabra = useCallback(async (url) => {
@@ -25,18 +27,24 @@ function App() {
     return palabras[posicionAleatoria];
   };
 
+  useEffect(() => {
+    getPalabra(urlsApis.apiPalabras);
+  }, [urlsApis.apiPalabras, getPalabra]);
+
   useEffect(
-    () => getPalabra(urlsApis.apiPalabras),
-    [urlsApis.apiPalabras, getPalabra]
+    () => setPalabraAdivinar(palabraSecreta.replace(/[a-z]/gi, " ")),
+    [palabraSecreta]
   );
 
-  const anyadirLetras = (e) => {
-    setPalabra([...palabra, e.target.value]);
+  const anyadirLetras = (letra) => {
+    // setPalabra([...palabra, e.target.value]);
     setTimeout(() => {
-      e.target.value = "";
+      letra = "";
     }, 500);
   };
 
+  //Llamara a la Api del ahorcado pasandole a la URL la palabraSecreta y la letra utilizada, devolvera un objeto
+  //que nos dira si ha habido error o acierto
   const comprobarLetra = (letra) => {};
 
   const acierto = (arrayPosiciones) => {};
@@ -46,13 +54,11 @@ function App() {
   return (
     <>
       <Ahorcado numeroFallos={nFallos} />
-      <ul className="palabra">
-        <Palabra palabraSecreta={palabraSecreta} />
-      </ul>
+      <Palabra palabraAdivinar={palabraAdivinar} />
       <input
         type="text"
         className="constra"
-        onChange={anyadirLetras}
+        onChange={(e) => anyadirLetras(e.target.value)}
         maxLength="1"
       />
       {/* Al componenete letras usadas le tendremos que pasar un array de letras que el jugador haya usado*/}

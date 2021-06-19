@@ -1,5 +1,11 @@
 export const Palabra = (props) => {
-  const { palabraSecreta } = props;
-  const arrayLetras = palabraSecreta.split("");
-  return arrayLetras.map((letra, i) => <li key={i}></li>);
+  const { palabraAdivinar } = props;
+
+  return (
+    <ul className="palabra">
+      {[...palabraAdivinar].map((letra, indice) => (
+        <li key={indice}>{letra.toUpperCase()}</li>
+      ))}
+    </ul>
+  );
 };
