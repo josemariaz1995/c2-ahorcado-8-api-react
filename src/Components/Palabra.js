@@ -1,3 +1,5 @@
 export const Palabra = (props) => {
-  return <li></li>;
+  const { palabraSecreta } = props;
+  const arrayLetras = palabraSecreta.split("");
+  return arrayLetras.map((letra) => <li></li>);
 };
