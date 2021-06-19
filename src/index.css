@@ -16,11 +16,11 @@ svg > * {
   stroke-linecap: round;
   stroke-miterlimit: 10;
   transition: 0.25s;
-  display: none;
-}
-svg > *.on {
   display: inline;
 }
+/* svg > *.on {
+  display: inline;
+} */
 .palabra,
 .letras-usadas {
   list-style: none;
@@ -39,6 +39,7 @@ svg > *.on {
   height: 29px;
   padding-left: 1px;
   margin-right: 10px;
+  margin-bottom: 15px;
   display: inline-block;
   vertical-align: middle;
   font-size: 24px;
