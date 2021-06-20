@@ -12,7 +12,7 @@ function App() {
   const [palabraAdivinar, setPalabraAdivinar] = useState("");
   const [nFallos, setFallos] = useState(0);
   const [letrasUsadas, setLetrasUsadas] = useState([]);
-  const [juegoTermiando, setJuegoTerminado] = useState(false);
+  const [juegoTerminado, setJuegoTerminado] = useState(false);
   const [haGanado, setHaGanado] = useState(false);
   const maxFallos = 11;
 
@@ -79,7 +79,7 @@ function App() {
       {/* Al componenente Mensaje le tendremos que pasar una variable booleana 
       que nos indique si el jugador ha perdido o ganado y mostrar el mensaje
       de ganar o perder*/}
-      <Mensaje />
+      {juegoTerminado ===true && <Mensaje resultado={haGanado}/> }
     </>
   );
 }
