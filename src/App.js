@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Ahorcado } from "./Components/Ahorcado";
+import { LetrasUsadas } from "./Components/LetrasUsadas";
 import { Mensaje } from "./Components/Mensaje";
 import { Palabra } from "./Components/Palabra";
 
@@ -37,15 +38,12 @@ function App() {
   );
 
   const anyadirLetras = (e) => {
-    comprobarLetra(e.target.value.toLowerCase());
-    setTimeout(() => {
-      e.target.value = "";
-    }, 500);
+    comprobarLetra(e, e.target.value.toLowerCase());
   };
 
   //Llamara a la Api del ahorcado pasandole a la URL la palabraSecreta y la letra utilizada
   //la response devolvera un objeto que nos dira si ha habido error o acierto
-  const comprobarLetra = async (letra) => {
+  const comprobarLetra = async (e, letra) => {
     const response = await fetch(
       `${urlsApis.apiAhorcado}${palabraSecreta}/${letra}`
     );
@@ -56,13 +54,24 @@ function App() {
     } else {
       error(resultado.mensaje, letra);
     }
+    setTimeout(() => {
+      e.target.value = "";
+    }, 500);
   };
 
   //Tiene que substituir los espacios de palabraAdivinar por la letra que le pasamos en las posiciones del array
-  const acierto = (arrayPosiciones, letra) => {};
+  const acierto = (arrayPosiciones, letra) => {
+    /* arrayPosiciones.map((posicion) =>
+     
+    ); */
+  };
 
   //
-  const error = (mensaje, letra) => {};
+  const error = (mensaje, letra) => {
+    if (nFallos !== maxFallos) {
+      setFallos(nFallos + 1);
+    }
+  };
 
   return (
     <>
@@ -75,7 +84,9 @@ function App() {
         maxLength="1"
       />
       {/* Al componenete letras usadas le tendremos que pasar un array de letras que el jugador haya usado*/}
-      <ul className="letras-usadas"></ul>
+      <ul className="letras-usadas">
+        <LetrasUsadas letrasUsadas={letrasUsadas} />
+      </ul>
       {/* Al componenente Mensaje le tendremos que pasar una variable booleana 
       que nos indique si el jugador ha perdido o ganado y mostrar el mensaje
       de ganar o perder*/}
