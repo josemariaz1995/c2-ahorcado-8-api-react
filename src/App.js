@@ -32,10 +32,23 @@ function App() {
     getPalabra(urlsApis.apiPalabras);
   }, [urlsApis.apiPalabras, getPalabra]);
 
-  useEffect(
-    () => setPalabraAdivinar(palabraSecreta.replace(/[a-z]/gi, " ")),
-    [palabraSecreta]
-  );
+  useEffect(() => {
+    setPalabraAdivinar(palabraSecreta.replace(/[a-z]/gi, " "));
+  }, [palabraSecreta]);
+
+  useEffect(() => {
+    if (nFallos === maxFallos) {
+      setJuegoTerminado(true);
+    }
+  }, [nFallos]);
+
+  useEffect(() => {
+    console.log(palabraAdivinar, palabraSecreta);
+    if (palabraSecreta === palabraAdivinar && palabraAdivinar !== "") {
+      setHaGanado(true);
+      setJuegoTerminado(true);
+    }
+  }, [palabraAdivinar, palabraSecreta]);
 
   const anyadirLetras = (e) => {
     comprobarLetra(e, e.target.value.toLowerCase());
@@ -50,7 +63,6 @@ function App() {
     const resultado = await response.json();
     setLetrasUsadas([...letrasUsadas, letra]);
     if (!resultado.error) {
-      debugger;
       acierto(resultado.posiciones, letra);
     } else {
       error(resultado.mensaje, letra);
@@ -62,6 +74,7 @@ function App() {
 
   //Tiene que substituir los espacios de palabraAdivinar por la letra que le pasamos en las posiciones del array
   const acierto = (arrayPosiciones, letraIntento) => {
+    console.log(palabraAdivinar, palabraSecreta);
     setPalabraAdivinar(
       palabraAdivinar
         .split("")
@@ -77,9 +90,7 @@ function App() {
 
   //
   const error = (mensaje, letra) => {
-    if (nFallos !== maxFallos) {
-      setFallos(nFallos + 1);
-    }
+    setFallos(nFallos + 1);
   };
 
   return (
@@ -91,6 +102,7 @@ function App() {
         className="constra"
         onChange={anyadirLetras}
         maxLength="1"
+        disabled={juegoTerminado}
       />
       {/* Al componenete letras usadas le tendremos que pasar un array de letras que el jugador haya usado*/}
       <ul className="letras-usadas">
@@ -99,7 +111,7 @@ function App() {
       {/* Al componenente Mensaje le tendremos que pasar una variable booleana 
       que nos indique si el jugador ha perdido o ganado y mostrar el mensaje
       de ganar o perder*/}
-      {juegoTerminado ===true && <Mensaje resultado={haGanado}/> }
+      {juegoTerminado === true && <Mensaje resultado={haGanado} />}
     </>
   );
 }
