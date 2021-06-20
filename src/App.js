@@ -52,6 +52,7 @@ function App() {
     const resultado = await response.json();
     setLetrasUsadas([...letrasUsadas, letra]);
     if (!resultado.error) {
+      debugger;
       acierto(resultado.posiciones, letra);
     } else {
       error(resultado.mensaje, letra);
@@ -59,7 +60,19 @@ function App() {
   };
 
   //Tiene que substituir los espacios de palabraAdivinar por la letra que le pasamos en las posiciones del array
-  const acierto = (arrayPosiciones, letra) => {};
+  const acierto = (arrayPosiciones, letraIntento) => {
+    setPalabraAdivinar(
+      palabraAdivinar
+        .split("")
+        .map((letra, indice) => {
+          if (arrayPosiciones.includes(indice)) {
+            return letraIntento;
+          }
+          return letra;
+        })
+        .join("")
+    );
+  };
 
   //
   const error = (mensaje, letra) => {};
