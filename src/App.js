@@ -36,20 +36,33 @@ function App() {
     [palabraSecreta]
   );
 
-  const anyadirLetras = (letra) => {
-    // setPalabra([...palabra, e.target.value]);
+  const anyadirLetras = (e) => {
+    comprobarLetra(e.target.value.toLowerCase());
     setTimeout(() => {
-      letra = "";
+      e.target.value = "";
     }, 500);
   };
 
-  //Llamara a la Api del ahorcado pasandole a la URL la palabraSecreta y la letra utilizada, devolvera un objeto
-  //que nos dira si ha habido error o acierto
-  const comprobarLetra = (letra) => {};
+  //Llamara a la Api del ahorcado pasandole a la URL la palabraSecreta y la letra utilizada
+  //la response devolvera un objeto que nos dira si ha habido error o acierto
+  const comprobarLetra = async (letra) => {
+    const response = await fetch(
+      `${urlsApis.apiAhorcado}${palabraSecreta}/${letra}`
+    );
+    const resultado = await response.json();
+    setLetrasUsadas([...letrasUsadas, letra]);
+    if (!resultado.error) {
+      acierto(resultado.posiciones, letra);
+    } else {
+      error(resultado.mensaje, letra);
+    }
+  };
 
-  const acierto = (arrayPosiciones) => {};
+  //Tiene que substituir los espacios de palabraAdivinar por la letra que le pasamos en las posiciones del array
+  const acierto = (arrayPosiciones, letra) => {};
 
-  const error = (mensaje) => {};
+  //
+  const error = (mensaje, letra) => {};
 
   return (
     <>
@@ -58,7 +71,7 @@ function App() {
       <input
         type="text"
         className="constra"
-        onChange={(e) => anyadirLetras(e.target.value)}
+        onChange={anyadirLetras}
         maxLength="1"
       />
       {/* Al componenete letras usadas le tendremos que pasar un array de letras que el jugador haya usado*/}
