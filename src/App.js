@@ -43,7 +43,6 @@ function App() {
   }, [nFallos]);
 
   useEffect(() => {
-    console.log(palabraAdivinar, palabraSecreta);
     if (palabraSecreta === palabraAdivinar && palabraAdivinar !== "") {
       setHaGanado(true);
       setJuegoTerminado(true);
