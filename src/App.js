@@ -74,7 +74,6 @@ function App() {
 
   //Tiene que substituir los espacios de palabraAdivinar por la letra que le pasamos en las posiciones del array
   const acierto = (arrayPosiciones, letraIntento) => {
-    console.log(palabraAdivinar, palabraSecreta);
     setPalabraAdivinar(
       palabraAdivinar
         .split("")
